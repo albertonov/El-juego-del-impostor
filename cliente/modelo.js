@@ -4,6 +4,7 @@ function Juego(){
 		//comprobar los limites de num
 		if(num>10 && num<4){
 			console.log("Introducir un maximo de 10 jugadores")
+			return "error"
 		}
 		else{
 			let codigo=this.obtenerCodigo();
@@ -80,6 +81,13 @@ function Partida(num,owner){
 			this.usuarios[nick].encargo =encargos[contador%4];
 			console.log(nicke);
 		}
+	}
+
+	this.asignarImpostor=function(){
+		//numusuarios=Object.keys(this.usuarios).lenght;
+		//randomInt(1,numusuarios);
+
+
 	}
 	this.agregarUsuario(owner);
 }
