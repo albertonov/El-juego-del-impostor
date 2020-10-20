@@ -2,7 +2,7 @@ function Juego(){
 	this.partidas={};
 	this.crearPartida=function(num,owner){
 		//comprobar los limites de num
-		if(num>10 && num<4){
+		if(num>10 || num<4){
 			console.log("Introducir un maximo de 10 jugadores")
 			return "error"
 		}
@@ -77,9 +77,11 @@ function Partida(num,owner){
 	this.asignarEncargos=function(){
 		encargos = ["mobiliario", "basuras", "jardin", "huerto"];
 		contador = 0;
-		for (nicke in Object.keys(this.usuarios).nick) {
-			this.usuarios[nick].encargo =encargos[contador%4];
-			console.log(nicke);
+		keys = Object.keys(this.usuarios);
+		for (nicke in keys) {
+			us = this.usuarios[nicke];
+			//us.encargo = "basura";
+			console.log(us);
 		}
 	}
 
@@ -188,12 +190,14 @@ function inicio(){
 	var usr = new Usuario("pepe", juego);
 	usr.juego=juego;
 	var codigo = usr.crearPartida(4);
+	var usr2 = new Usuario("perico", juego);
+	var usr3 = new Usuario("antonio", juego);
+	var usr4 = new Usuario("paquito", juego);
 
-
-	juego.unirAPartida(codigo,"luis");
-	juego.unirAPartida(codigo,"luisa");
-	juego.unirAPartida(codigo,"luisito");
-	juego.unirAPartida(codigo,"bartolo");
+	juego.unirAPartida(codigo,usr2);
+	juego.unirAPartida(codigo,usr3);
+	juego.unirAPartida(codigo,usr4);
+	//juego.unirAPartida(codigo,"bartolo");
 
 	usr.iniciarPartida();
 }
