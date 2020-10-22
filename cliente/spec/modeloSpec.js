@@ -27,6 +27,11 @@ describe("El juego del impostor", function() {
 	 	var num=Object.keys(juego.partidas[codigo].usuarios).length;
 	  	expect(num).toEqual(1);
 	  });
+	it("Comprobar partida si no se cumplen los numeros limites", function(){
+		codigo1= usr.crearPartida(30);
+		expect(codigo1).toEqual("error");
+	  });
+
 
 	it("Jugadores se unen a la partida",function(){
 		expect(juego.partidas[codigo].fase.nombre).toEqual("inicial");
