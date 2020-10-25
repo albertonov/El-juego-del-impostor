@@ -346,13 +346,13 @@ function inicio(){
 	var usr = new Usuario("pepe", juego);
 	usr.juego=juego;
 	var codigo = usr.crearPartida(4);
-	var usr2 = new Usuario("perico", juego);
-	var usr3 = new Usuario("antonio", juego);
-	var usr4 = new Usuario("paquito", juego);
+	//var usr2 = new Usuario("perico", juego);
+	//var usr3 = new Usuario("antonio", juego);
+	//var usr4 = new Usuario("paquito", juego);
 
-	juego.unirAPartida(codigo,usr2);
-	juego.unirAPartida(codigo,usr3);
-	juego.unirAPartida(codigo,usr4);
+	juego.unirAPartida(codigo,"perico");
+	juego.unirAPartida(codigo,"antoñito");
+	juego.unirAPartida(codigo,"paquito");
 	//juego.unirAPartida(codigo,"bartolo");
 
 	usr.iniciarPartida();

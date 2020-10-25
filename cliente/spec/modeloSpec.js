@@ -52,6 +52,60 @@ describe("El juego del impostor", function() {
 		expect(juego.partidas[codigo].fase.nombre).toEqual("completado");		
 		usr.iniciarPartida();
 		expect(juego.partidas[codigo].fase.nombre).toEqual("jugando");
-	})
+		})
    });
+
+  	describe("durante la partida...", function(){
+  		var partida;
+  		beforeEach(function(){
+  			codigo=usr.crearPartida(4);
+  			partida = juego.partidas[codigo];
+
+  			juego.unirAPartida(codigo,"jugador1");
+			juego.unirAPartida(codigo,"jugador2");	
+			juego.unirAPartida(codigo,"jugador3");
+
+			partida.iniciarPartida();
+
+  		});
+  		it("Jugadores abandonan la partida", function(){
+		  	var num=Object.keys(juego.partidas[codigo].usuarios).length;
+		  	expect(num).toEqual(4);
+
+
+  			usr.abandonarPartida();
+  			var num=Object.keys(juego.partidas[codigo].usuarios).length;
+	  		expect(num).toEqual(3);
+
+  			var j1 = juego.partidas[codigo].usuarios["jugador1"]
+  			j1.abandonarPartida();
+  			var num=Object.keys(juego.partidas[codigo].usuarios).length;
+	  		expect(num).toEqual(2);
+
+	  		var j2 = juego.partidas[codigo].usuarios["jugador2"]
+  			j2.abandonarPartida();
+  			var num=Object.keys(juego.partidas[codigo].usuarios).length;
+	  		expect(num).toEqual(1);
+
+	  		var j3 = juego.partidas[codigo].usuarios["jugador3"]
+  			j3.abandonarPartida();
+  			var num=Object.keys(juego.partidas[codigo].usuarios).length;
+	  		expect(num).toEqual(0);
+
+
+
+  		});
+
+  		it("comprobar que hay un impostor", function(){
+  			var encontradoImpostor = false;
+
+  			for (var key in partida.usuarios){
+  				if (partida.usuarios[key].impostor){
+  					encontradoImpostor = true;
+  				}
+  			}
+  			expect(encontradoImpostor).toBe(true);
+  		});
+
+  	})
 })
