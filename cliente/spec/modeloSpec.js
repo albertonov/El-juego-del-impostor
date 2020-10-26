@@ -107,5 +107,47 @@ describe("El juego del impostor", function() {
   			expect(encontradoImpostor).toBe(true);
   		});
 
+  		it("impostor ataca", function(){
+  			var num=partida.numeroCiudadanosVivos();
+		  	expect(num).toEqual(3);
+
+  			var nickImpostor;
+  			var nickVictima;
+  			for (var key in partida.usuarios){
+  				if (partida.usuarios[key].impostor){
+  					nickImpostor = key;
+  				}
+  				else{
+  					nickVictima = key;
+  				}
+  			}
+  			var impostor = partida.usuarios[nickImpostor];
+
+  			impostor.atacar(nickVictima);
+  			var num=partida.numeroCiudadanosVivos();
+		  	expect(num).toEqual(2);
+  		});
+
+  		it("impostor gana", function(){
+  			var num=partida.numeroCiudadanosVivos();
+		  	expect(num).toEqual(3);
+
+  			var nickImpostor;
+  			
+  			for (var key in partida.usuarios){
+  				if (partida.usuarios[key].impostor){
+  					nickImpostor = key;
+  				}
+  			}
+  			var impostor = partida.usuarios[nickImpostor];
+  			for (var key in partida.usuarios){
+  				if (!partida.usuarios[key].impostor){
+  					impostor.atacar(key);
+  				}
+  			}
+
+  			expect(partida.gananImpostores()).toBe(true);
+  		});
+
   	})
 })
