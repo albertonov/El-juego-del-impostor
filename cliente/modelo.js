@@ -143,7 +143,7 @@ function Partida(num,owner){
 		return false;
 	}
 	this.gananCiudadanos=function(){
-		return (numeroImpostoresVivos() == 0);
+		return (this.numeroImpostoresVivos() == 0);
 	}
 
 	this.masVotado=function(){
@@ -201,6 +201,8 @@ function Partida(num,owner){
 		if (elegido && elegido.votos>this.numeroSkips()){
 			elegido.esAtacado();
 		}
+		this.reiniciarContadores();
+		this.fase = new Jugando();
 	}
 
 	this.atacar = function(usrnick){
@@ -208,6 +210,19 @@ function Partida(num,owner){
 	}
 	this.puedeAtacar = function(usrnick){
 		this.usuarios[usrnick].esAtacado();
+		this.comprobarFinal();
+	}
+	this.votar=function(usrnick){
+		this.fase.votar(usrnick, this);
+	}
+	this.puedeVotar=function(usrnick){
+		this.usuarios[usrnick].esVotado();
+	}
+	this.lanzarVotacion = function(){
+		this.fase.lanzarVotacion(this);
+	}
+	this.puedeLanzarVotacion = function(){
+		this.fase = new Votacion();
 	}
 }
 
@@ -230,6 +245,10 @@ function Inicial(){
 
 	this.atacar=function(usrnick,partida){
 		console.log("La partida no ha empezado")
+	}
+	this.lanzarVotacion=function(partida){}
+		this.votar=function(usrnick){
+		
 	}
 }
 
@@ -262,6 +281,10 @@ function Completado(){
 	this.atacar=function(usrnick,partida){
 		console.log("La partida no ha empezado")
 	}
+	this.lanzarVotacion=function(partida){}
+		this.votar=function(usrnick){
+		
+	}
 }
 
 function Jugando(){
@@ -278,10 +301,26 @@ function Jugando(){
 	this.atacar=function(usrnick,partida){
 		partida.puedeAtacar(usrnick);
 	}
+	this.lanzarVotacion=function(partida){
+		partida.puedeLanzarVotacion();
+	}
+		this.votar=function(usrnick){
+		
+	}
 }
-
+function Votacion(){
+	this.nombre="votacion";
+	this.agregarUsuario=function(nick,partida){}
+	this.iniciarPartida=function(partida){}
+	this.atacar=function(usrnick,partida){}
+	this.abandonarPartida=function(nick,partida){}
+	this.lanzarVotacion=function(partida){}
+	this.votar=function(usrnick,partida){
+		partida.puedeVotar(usrnick);
+	}
+}
 function Final(){
-	this.final="final";
+	this.nombre="final";
 	this.agregarUsuario=function(nick,partida){
 		console.log("La partida ha terminado");
 	}
@@ -293,6 +332,10 @@ function Final(){
 	}
 	this.abandonarPartida=function(nick,partida){
 		//absurdo
+	}
+	this.lanzarVotacion=function(partida){}
+		this.votar=function(usrnick){
+		
 	}
 }
 
@@ -366,6 +409,7 @@ function Usuario(nick,juego){
 		this.votos = this.votos+1;
 	}
 	this.votar=function(usr){
+		this.haVotado = true;
 		this.partida.votar(usr);
 	}
 

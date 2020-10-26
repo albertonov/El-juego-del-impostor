@@ -149,5 +149,46 @@ describe("El juego del impostor", function() {
   			expect(partida.gananImpostores()).toBe(true);
   		});
 
+  		it("votaciones: todos skipean, nadie muere", function(){
+  			numJugadoresVivos = partida.numeroCiudadanosVivos() + partida.numeroImpostoresVivos();
+  			expect(numJugadoresVivos).toEqual(4)
+  			usr = partida.usuarios["Pepe"];
+  			usr.lanzarVotacion();
+  			expect(partida.fase.nombre).toEqual("votacion");
+  			for (var key in partida.usuarios){
+  				partida.usuarios[key].saltarVoto();
+  			}
+  			partida.comprobarVotacion();
+  			numJugadoresVivos = partida.numeroCiudadanosVivos() + partida.numeroImpostoresVivos();
+  			expect(numJugadoresVivos).toEqual(4)
+  			expect(partida.fase.nombre).toEqual("jugando");
+  		});
+
+  		it("impostor pillado, gana el pueblo", function(){
+  			var nickImpostor;
+  			usr = partida.usuarios["Pepe"];
+  			usr.lanzarVotacion();
+  			expect(partida.fase.nombre).toEqual("votacion");
+  			for (var key in partida.usuarios){
+  				if (partida.usuarios[key].impostor){
+  					nickImpostor = key;
+  				}
+  			}
+
+  			for (var key in partida.usuarios){
+  				if (partida.usuarios[key].impostor){
+  					//el impostor salta el voto
+  					partida.usuarios[key].saltarVoto()
+  				}
+  				else{
+  					//los demas le votan
+  					partida.usuarios[key].votar(nickImpostor);
+  				}
+  			}
+  			partida.comprobarVotacion();
+  			expect(partida.gananCiudadanos()).toBe(true);
+  			
+  		});
+
   	})
 })
