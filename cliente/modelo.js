@@ -203,7 +203,12 @@ function Partida(num,owner){
 		}
 	}
 
-
+	this.atacar = function(usrnick){
+		this.fase.atacar(usrnick, this);
+	}
+	this.puedeAtacar = function(usrnick){
+		this.usuarios[usrnick].esAtacado();
+	}
 }
 
 function Inicial(){
@@ -221,6 +226,10 @@ function Inicial(){
 		partida.puedeAbandonarPartida(nick);
 		//partida.eliminarUsuario(nick);
 		//comprobar si no quedan usr
+	}
+
+	this.atacar=function(usrnick,partida){
+		console.log("La partida no ha empezado")
 	}
 }
 
@@ -250,6 +259,9 @@ function Completado(){
 			partida.fase=new Inicial();
 		}
 	}
+	this.atacar=function(usrnick,partida){
+		console.log("La partida no ha empezado")
+	}
 }
 
 function Jugando(){
@@ -263,8 +275,8 @@ function Jugando(){
 		partida.eliminarUsuario(nick);
 		//comprobar si termina la partida
 	}
-	this.atacarUsuario = function(nick, partida, nickAtacante){
-		partida.usuarios[nick].esAtacadoPor(nickAtacante);
+	this.atacar=function(usrnick,partida){
+		partida.puedeAtacar(usrnick);
 	}
 }
 
@@ -276,21 +288,33 @@ function Final(){
 	this.iniciarPartida=function(partida){
 
 	}
+	this.atacar=function(usrnick,partida){
+		console.log("La partida ha terminado")
+	}
 	this.abandonarPartida=function(nick,partida){
 		//absurdo
 	}
 }
 
 function Vivo(){
-	this.puedeSerAtacadoPor = function(partida,nick,nickAtacante){
-		partida[nick].puedeSerAtacadoPor(nickAtacante);
+	this.esAtacado = function(usr){
+		usr.estado = new Muerto();
 	}
+
+	this.lanzarVotacion = function(usr){
+		usr.puedeLanzarVotacion();
+	}
+	this.nombre ="vivo"
 }
 
 function Muerto(){
-	this.puedeSerAtacadoPor = function(partida,nick,nickAtacante){
-		console.log("Los muertos no pueden ser atacados");
+	this.esAtacado = function(usr){
+		console.log("Los muertos no cuentan cuentos")
 	}
+	this.lanzarVotacion = function(usr){
+		
+	}
+	this.nombre ="muerto"
 }
 
 function Usuario(nick,juego){
@@ -316,25 +340,39 @@ function Usuario(nick,juego){
 			console.log(this.nick, " era el ultimo jugador");
 		}
 	}
-	this.atacarUsuario = function(nick){
+	this.atacar = function(nick){
 		if (this.impostor){
-			this.partida.fase.atacarUsuario(nick, this, this.nick);
+			this.partida.atacar(nick);
 		}
 		else {
 			console.log("No eres el impostor");
 		}
 		
 	}
-
-
-	this.esAtacadoPor = function(nickAtacante){
-		this.estado.puedeSerAtacadoPor(this, this.nick, nickAtacante);
+	this.saltarVoto =function(){
+		this.skip=true;
 	}
 
-	this.puedeSerAtacadoPor = function(nickAtacante){
-		this.estado = new Muerto();
-		console.log(nickAtacante, " mata a ", this.nick);
+	this.esAtacado = function(){
+		this.estado.esAtacado(this);
 	}
+	this.lanzarVotacion = function(){
+		this.estado.lanzarVotacion(this);
+	}
+	this.puedeLanzarVotacion=function(){
+		this.partida.lanzarVotacion();
+	}
+	this.esVotado = function(){
+		this.votos = this.votos+1;
+	}
+	this.votar=function(usr){
+		this.partida.votar(usr);
+	}
+
+	//this.puedeSerAtacadoPor = function(nickAtacante){
+	//	this.estado = new Muerto();
+	//	console.log(nickAtacante, " mata a ", this.nick);
+	//}
 }
 
 function randomInt(low, high) {
