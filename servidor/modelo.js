@@ -440,4 +440,5 @@ function inicio(){
 	usr.iniciarPartida();
 }
 
-
+module.exports.Juego=Juego;
+module.exports.Usuario=Usuario;
