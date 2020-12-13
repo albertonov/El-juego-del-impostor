@@ -10,8 +10,8 @@ function ClienteRest(){
 		});
 	}
 	this.listaPartidas=function(){
-		$.getJSON("/listaPartidas",function(data){    
-    		console.log(data);
+		$.getJSON("/listaPartidas",function(lista){    
+    		console.log(lista);
 		});
 	}
 	this.iniciarPartida=function(nick,codigo){

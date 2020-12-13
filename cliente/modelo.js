@@ -343,7 +343,6 @@ function Vivo(){
 	this.esAtacado = function(usr){
 		usr.estado = new Muerto();
 	}
-
 	this.lanzarVotacion = function(usr){
 		usr.puedeLanzarVotacion();
 	}
@@ -354,9 +353,7 @@ function Muerto(){
 	this.esAtacado = function(usr){
 		console.log("Los muertos no cuentan cuentos")
 	}
-	this.lanzarVotacion = function(usr){
-		
-	}
+	this.lanzarVotacion = function(usr){}
 	this.nombre ="muerto"
 }
 
@@ -364,8 +361,10 @@ function Usuario(nick,juego){
 	this.nick=nick;
 	this.juego=juego;
 	this.partida;
-	this.encargo = "";
+
 	this.impostor = false;
+	this.encargo = "";
+	
 	this.estado = new Vivo();
 	this.votos = 0;
 	this.skip = false;
@@ -387,36 +386,28 @@ function Usuario(nick,juego){
 		if (this.impostor){
 			this.partida.atacar(nick);
 		}
-		else {
-			console.log("No eres el impostor");
-		}
+		else {}
 		
 	}
 	this.saltarVoto =function(){
 		this.skip=true;
-	}
-
-	this.esAtacado = function(){
-		this.estado.esAtacado(this);
-	}
-	this.lanzarVotacion = function(){
-		this.estado.lanzarVotacion(this);
-	}
+	}	
 	this.puedeLanzarVotacion=function(){
 		this.partida.lanzarVotacion();
 	}
 	this.esVotado = function(){
 		this.votos = this.votos+1;
 	}
+	this.esAtacado = function(){
+		this.estado.esAtacado(this);
+	}
+	this.lanzarVotacion = function(){
+		this.estado.lanzarVotacion(this);
+	}
 	this.votar=function(usr){
 		this.haVotado = true;
 		this.partida.votar(usr);
 	}
-
-	//this.puedeSerAtacadoPor = function(nickAtacante){
-	//	this.estado = new Muerto();
-	//	console.log(nickAtacante, " mata a ", this.nick);
-	//}
 }
 
 function randomInt(low, high) {
@@ -424,18 +415,16 @@ function randomInt(low, high) {
 }
 
 function inicio(){
+	//depecrated
 	juego = new Juego();
-	var usr = new Usuario("pepe", juego);
+	var usr = new Usuario("jugador", juego);
 	usr.juego=juego;
 	var codigo = usr.crearPartida(4);
-	//var usr2 = new Usuario("perico", juego);
-	//var usr3 = new Usuario("antonio", juego);
-	//var usr4 = new Usuario("paquito", juego);
 
-	juego.unirAPartida(codigo,"perico");
-	juego.unirAPartida(codigo,"antoñito");
-	juego.unirAPartida(codigo,"paquito");
-	//juego.unirAPartida(codigo,"bartolo");
+	juego.unirAPartida(codigo,"jugador1");
+	juego.unirAPartida(codigo,"jugador2");
+	juego.unirAPartida(codigo,"jugador3");
+	juego.unirAPartida(codigo,"jugador4");
 
 	usr.iniciarPartida();
 }
