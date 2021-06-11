@@ -6,7 +6,7 @@ describe("El juego del impostor", function() {
   var nick;
 
   beforeEach(function() {
-  	juego=new modelo.Juego();
+  	juego=new modelo.Juego(4);
   	//usr=new modelo.Usuario("Pepe");
   	nick="Pepe";
   });
@@ -180,6 +180,24 @@ describe("El juego del impostor", function() {
 			expect(partida.fase.nombre).toEqual("jugando");
 			juego.atacar(nick,codigo,"isa");
 			expect(partida.usuarios["isa"].estado.nombre).toEqual("muerto");
+			expect(partida.fase.nombre).toEqual("final");
+		});
+
+		it("realizar tareas",function(){
+			var partida=juego.partidas[codigo];
+			expect(partida.obtenerPercentGlobal()).toEqual(0);
+			for(var i=0;i<9;i++){
+				for(var key in partida.usuarios){
+
+					partida.usuarios[key].realizarTarea();
+				}
+				expect(partida.fase.nombre).toEqual("jugando");
+				expect(partida.obtenerPercentGlobal()).toEqual((i+1)*100/10);
+			}
+			for(var key in partida.usuarios){
+					partida.usuarios[key].realizarTarea();
+			}
+			expect(partida.obtenerPercentGlobal()).toEqual(100);
 			expect(partida.fase.nombre).toEqual("final");
 		});
 	})
