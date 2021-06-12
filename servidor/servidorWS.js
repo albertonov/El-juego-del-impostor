@@ -77,7 +77,7 @@ function ServidorWS(){
 		    socket.on("lanzarVotacion",function(nick,codigo){
 		    	juego.lanzarVotacion(nick,codigo);
 		    	var partida=juego.partidas[codigo];
-		    	var lista=partida.obtenerListaJugadoresVivos();
+		    	var lista=partida.obtenerJugadoresVivos();
 		    	cli.enviarATodos(io, codigo,"votacion",lista);
 		    });
 

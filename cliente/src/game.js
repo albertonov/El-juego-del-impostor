@@ -63,6 +63,12 @@ function lanzarJuego(){
       this.load.image("tiles", "cliente/assets/tilesets/tuxmon-sample-32px-extruded.png");
       this.load.tilemapTiledJSON("map", "cliente/assets/tilemaps/tuxemon-town.json");
     }
+    else if (ws.mapa == "map3"){
+      mapa = ws.mapa;
+      tileName = 'space'
+      this.load.image("tiles", "cliente/assets/tilesets/space.png");
+      this.load.tilemapTiledJSON("map", "cliente/assets/tilemaps/naveespacial.json");
+    }
 
     else {
       console.log("ERROR MAPA, cargando mapa2")
@@ -98,7 +104,21 @@ function lanzarJuego(){
     capaTareas.setCollisionByProperty({ collides: true });
 
 
+    const width = 1200
+	  const height = 1200
+    var rt = crear.make.renderTexture({
+      width,
+      height
+    }, true)
 
+    rt.fill(0x000000, 1);
+    rt.draw(belowLayer);
+    rt.draw(worldLayer);
+    rt.draw(aboveLayer);
+    rt.draw(capaTareas);
+    
+
+    rt.setTint(0x0a2948);
 
 
 
@@ -362,22 +382,8 @@ function lanzarJuego(){
     ws.estoyDentro();
 
 
-      /*
-    const width = 1600
-	  const height = 1600
-    var rt = crear.make.renderTexture({
-      width,
-      height
-    }, true)
-
-    rt.fill(0x000000, 1);
-    rt.draw(belowLayer);
-    rt.draw(worldLayer);
-    rt.draw(aboveLayer);
-    rt.draw(capaTareas);
     
 
-    rt.setTint(0x0a2948);
 
 
     vision = crear.make.image({
@@ -387,10 +393,10 @@ function lanzarJuego(){
       add: false
     })
 
-    vision.scale = 10000
+    vision.scale = 2.5
     rt.mask = new Phaser.Display.Masks.BitmapMask(crear, vision)
     rt.mask.invertAlpha = true
-    */
+    
 
   }
 
@@ -556,12 +562,12 @@ function lanzarJuego(){
         // else if (prevVelocity.y < 0) player.setTexture("gabe", "gabe-back-walk");
         // else if (prevVelocity.y > 0) player.setTexture("gabe", "gabe-front-walk");
       }
-      /*
+      
       if (vision)
       {
         vision.x = player.x
         vision.y = player.y
       }
-      */
+      
     }
   }
