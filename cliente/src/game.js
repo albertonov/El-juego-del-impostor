@@ -48,6 +48,10 @@ function lanzarJuego(){
   let mapa = null;
   let tileName = null;
   var vision = null;
+  var nickJugador;
+  var nicksJugadores = {};
+  var fogOfWar = false;
+
   function preload() {
 
     if (ws.mapa == "map1"){
@@ -103,22 +107,24 @@ function lanzarJuego(){
     worldLayer.setCollisionByProperty({ collides: true });
     capaTareas.setCollisionByProperty({ collides: true });
 
-
-    const width = 1200
-	  const height = 1200
-    var rt = crear.make.renderTexture({
-      width,
-      height
-    }, true)
-
-    rt.fill(0x000000, 1);
-    rt.draw(belowLayer);
-    rt.draw(worldLayer);
-    rt.draw(aboveLayer);
-    rt.draw(capaTareas);
-    
-
-    rt.setTint(0x0a2948);
+    if (fogOfWar){
+      const width = 1200
+      const height = 1200
+      var rt = crear.make.renderTexture({
+        width,
+        height
+      }, true)
+  
+      rt.fill(0x000000, 1);
+      rt.draw(belowLayer);
+      rt.draw(worldLayer);
+      rt.draw(aboveLayer);
+      rt.draw(capaTareas);
+      
+  
+      rt.setTint(0x0a2948);
+  
+    }
 
 
 
@@ -381,22 +387,30 @@ function lanzarJuego(){
     lanzarJugador(ws.nick,ws.numJugador);
     ws.estoyDentro();
 
+    if (ws.impostor){
+      nickJugador = this.add.text(player.x -15, player.y -25, ws.nick, {fontSize: '10px', color: '#ff0000', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
+    }
+    else{
+      nickJugador = this.add.text(player.x -15, player.y -25, ws.nick, {fontSize: '10px', color: '#fff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
 
+    }
     
 
 
+    if (fogOfWar){
+      vision = crear.make.image({
+        x: player.x,
+        y: player.y,
+        key: 'vision',
+        add: false
+      })
+  
+      vision.scale = 2.5
+      rt.mask = new Phaser.Display.Masks.BitmapMask(crear, vision)
+      rt.mask.invertAlpha = true  
+    }
 
-    vision = crear.make.image({
-      x: player.x,
-      y: player.y,
-      key: 'vision',
-      add: false
-    })
 
-    vision.scale = 2.5
-    rt.mask = new Phaser.Display.Masks.BitmapMask(crear, vision)
-    rt.mask.invertAlpha = true
-    
 
   }
 
@@ -431,7 +445,7 @@ function lanzarJuego(){
   function votacion(sprite,muerto){
     //comprobar si el jugador local pulsa "v"
     //en ese caso, llamamos al servidor para lanzar votacion
-    if (teclaV.isDown){
+    if (teclaV.isDown && ws.estado !="muerto"){
       ws.lanzarVotacion();
     }
   }
@@ -469,6 +483,8 @@ function lanzarJuego(){
     jugadores[nick].nick=nick;
     jugadores[nick].numJugador=numJugador;
     remotos.add(jugadores[nick]);
+    nicksJugadores[nick] = crear.add.text(x - 15, spawnPoint.y - 25, nick, {fontSize: '10px', color: '#fff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
+    
   }
 
   function mover(datos)
@@ -479,10 +495,11 @@ function lanzarJuego(){
     var x=datos.x;
     var y=datos.y;
     var remoto=jugadores[nick];
+    var nickRemoto = nicksJugadores[nick];
     const speed = 175;
     //const prevVelocity = player.body.velocity.clone();
     const nombre=recursos[numJugador].sprite;
-    if (remoto && !final)
+    if (remoto && !final && ws.estado!="muerto" )
     {
       remoto.body.setVelocity(0);
       remoto.setX(x);
@@ -499,7 +516,8 @@ function lanzarJuego(){
       } else {
         remoto.anims.stop();
       }
-
+      nickRemoto.x = x - 15;
+      nickRemoto.y = y - 25;
     }
   }
 
@@ -516,7 +534,7 @@ function lanzarJuego(){
 
     const nombre=recursos[ws.numJugador].sprite;
 
-    if (!final){
+    if (!final && ws.estado !="muerto"){
       // Stop any previous movement from the last frame
       player.body.setVelocity(0);
       //player2.body.setVelocity(0);
@@ -562,12 +580,17 @@ function lanzarJuego(){
         // else if (prevVelocity.y < 0) player.setTexture("gabe", "gabe-back-walk");
         // else if (prevVelocity.y > 0) player.setTexture("gabe", "gabe-front-walk");
       }
-      
-      if (vision)
-      {
-        vision.x = player.x
-        vision.y = player.y
+      nickJugador.x = player.x - 15;
+      nickJugador.y = player.y - 25;
+      if (fogOfWar){
+        if (vision)
+        {
+          vision.x = player.x
+          vision.y = player.y
+        }      
       }
-      
+
+
+
     }
   }

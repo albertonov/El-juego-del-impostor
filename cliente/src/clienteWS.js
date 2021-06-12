@@ -22,8 +22,10 @@ function ClienteWS(){
 		this.socket.emit("unirAPartida",nick,codigo);
 	}
 	this.iniciarPartida=function(){
-		console.log("2")
 		this.socket.emit("iniciarPartida",this.nick,this.codigo);
+	}
+	this.abandonarPartida=function(){
+		this.socket.emit("abandonarPartida",this.nick,this.codigo);
 	}
 	this.listaPartidasDisponibles=function(){
 		this.socket.emit("listaPartidasDisponibles");
@@ -82,7 +84,7 @@ function ClienteWS(){
 				cli.owner=true;
 				cli.numJugador=0;
 				cli.estado="vivo";
-				cw.mostrarEsperandoRival();
+				cw.mostrarEsperandoRival(data.codigo);
 				cli.mapa = data.mapa;
 				console.log("A PARTIDA CREADA LE LLEGA "+ data.mapa)
 			}
@@ -95,12 +97,18 @@ function ClienteWS(){
 			cli.mapa = data.mapa;
 			console.log(data);
 
-			cw.mostrarEsperandoRival();
+			cw.mostrarEsperandoRival(data.codigo);
 		});
 		this.socket.on('nuevoJugador',function(lista){
 			//console.log(nick+" se une a la partida");
 			cw.mostrarListaJugadores(lista);
 			//cli.iniciarPartida();
+		});
+		this.socket.on('jugadorAbandona',function(lista){
+			cw.mostrarListaJugadores(lista);
+		});
+		this.socket.on('ownerAbandona',function(){
+			cw.mostrarModalSimple("El creador de la partida ha abandonado el juego... Deberias de encontrar otra partida")
 		});
 		this.socket.on('partidaIniciada',function(fase){
 			console.log("4")
@@ -135,8 +143,9 @@ function ClienteWS(){
 			mover(datos);
 		})
 		this.socket.on("votacion",function(lista){
-			console.log(lista);
-			cw.mostrarModalVotacion(lista);
+			if (cli.estado != "muerto"){
+				cw.mostrarModalVotacion(lista);
+			}
 		});
 		this.socket.on("finalVotacion",function(data){
 			console.log(data);

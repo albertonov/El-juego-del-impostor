@@ -41,9 +41,33 @@ function ServidorWS(){
 				}
 				
 		    });
+			socket.on('abandonarPartida',function(nick,codigo){
+				var ownerAbandona = false;
+		    	var partida=juego.partidas[codigo];
+				if (partida){
+					//comprobar si existe, ya que el owner puede haber abandonado la partida y eliminarla
+					partida.abandonarPartida(nick);
+					if (nick == partida.nickOwner){
+						ownerAbandona = true;
+					}
+					console.log("OWNER ABANDONA: " + ownerAbandona)
+					if (ownerAbandona){
+						
+						console.log("Avisando a usuarios de que Owner ha abandonado partida")
+						cli.enviarATodosMenosRemitente(socket,codigo,"ownerAbandona", null);
+						console.log("Eliminando partida...")
+						juego.eliminarPartida(codigo);
+					}
+					else{
+						//if partida existe then enviartodos else nada
+
+						var lista=juego.obtenerListaJugadores(codigo);
+						cli.enviarATodosMenosRemitente(socket,codigo, "jugadorAbandona",lista);
+					}
+				}
+		    });
 
 		    socket.on('iniciarPartida',function(nick,codigo){
-				console.log("3")
 		      	juego.iniciarPartida(nick,codigo);
 		    	var fase=juego.partidas[codigo].fase.nombre;
 		    	if (fase=="jugando"){
@@ -91,25 +115,34 @@ function ServidorWS(){
 		    	else{
 		    		cli.enviarATodos(io, codigo,"haVotado",partida.listaHanVotado());		    	
 		    	}
+				var fase=partida.fase.nombre;
+				if (fase=="final"){
+			    	cli.enviarATodos(io, codigo, "final","FIN DEL JUEGO");
+			    }
 		    });
 
 			socket.on("votar",function(nick,codigo,sospechoso){
 		    	var partida=juego.partidas[codigo];
 		    	juego.votar(nick,codigo,sospechoso);
 		    	if (partida.todosHanVotado()){
+					console.log("TODOS Han votado ya")
 		    		var data={"elegido":partida.elegido,"fase":partida.fase.nombre};
 			    	cli.enviarATodos(io, codigo,"finalVotacion",data);	
 		    	}
 		    	else{
 		    		cli.enviarATodos(io, codigo,"haVotado",partida.listaHanVotado());		    	
 		    	}
+				var fase=partida.fase.nombre;
+				if (fase=="final"){
+			    	cli.enviarATodos(io, codigo, "final","FIN DEL JUEGO");
+			    }
 		    });
 
 		    socket.on("obtenerEncargo",function(nick,codigo, mapa){
 		    	var encargo=juego.partidas[codigo].usuarios[nick].encargo;
 		    	var impostor=juego.partidas[codigo].usuarios[nick].impostor;
 				var infoTarea = juego.getTareaInfo(encargo, mapa);
-				console.log("Tarea info es:   "+infoTarea)
+				//console.log("Tarea info es:   "+infoTarea)
 		    	cli.enviarRemitente(socket,"recibirEncargo",{"encargo":encargo,"impostor":impostor, "infoTarea":infoTarea});
 		    });
 

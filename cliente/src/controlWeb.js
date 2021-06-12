@@ -42,7 +42,6 @@ function ControlWeb($){
 		cadena=cadena+				'</div>';
 		cadena=cadena+				'<div class=" col-sm-6">';
 		cadena=cadena+					'<select id="selectorMapa" class="form-select" aria-label="Default select example">';
-		cadena=cadena+						'<option selected>Seleccionar mapa...</option>';
 		cadena=cadena+						'<option value="map1">One</option>';
 		cadena=cadena+						'<option value="map2">2</option>';
 		cadena=cadena+						'<option value="map3">3</option>';
@@ -75,18 +74,21 @@ function ControlWeb($){
 	this.mostrarListaPartidas=function(lista){
 		$('#mostrarListaPartidas').remove();
 		$('#unirme').remove();
+		$('#unirsePartidaPrivada').remove();
+		$('#avisoSinPartidas').remove();
+
 		var cadena = ""
-		cadena = cadena + '<div class="container"> ';
+		cadena = cadena + '<div id="unirsePartidaPrivada" class="container"> ';
 		cadena = cadena + 	'<div class="row ">';
 		cadena = cadena + 		'<br><br><label for="codigoPartidaInput">Codigo:</label>';
 		cadena = cadena + 		'<input type="text" id="codigoPartidaInput" name="codigoPartidaInput" placeholder="Código..."><br><br> ';
-		cadena = cadena + 		'<input type="submit" value="Entrar">';
+		cadena = cadena + 		'<input type="button" id="botonPartidaPrivada" class="btn btn-primary btn-md" value="Entrar">';
 		cadena = cadena + 		'<hr />';
 		cadena = cadena + 	'</div>';
 		cadena = cadena + '</div>';
 
 		if (Object.keys(lista).length == 0){
-			cadena= cadena + '<h3>No hay partidas disponibles...</h3> <br><br>Parece que no hay ninguna partida en curso';
+			cadena= cadena + '<div id="avisoSinPartidas"><h3>No hay partidas disponibles...</h3> <br><br>Parece que no hay ninguna partida en curso </div>';
 		}
 		else{
 
@@ -118,21 +120,34 @@ function ControlWeb($){
 	            ws.unirAPartida(nick,codigo);
 	          }
 	    });
+
+		$('#botonPartidaPrivada').click(function(){
+			var codigo=$('#codigoPartidaInput').val();
+			var nick=$('#nick').val();
+			if (codigo && nick){
+			  $("#menuPrincipal").remove();
+			  ws.unirAPartida(nick,codigo);
+			}
+	  });
 	  }
 
-	this.mostrarEsperandoRival=function(){
+	this.mostrarEsperandoRival=function(codigo){
 	    this.limpiar();
 	    //$('#mER').remove();
-	    var cadena='<div id="mER"><h3>Esperando rival</h3>';
+	    var cadena='<div id="mER"><h3>Esperando rival - '+ codigo +'</h3>';
 	    cadena=cadena+'<img id="gif" src="cliente/img/waiting.gif"><br>';
 	    if (ws.owner){
-			cadena=cadena+'<input type="button" class="btn btn-primary btn-md" id="iniciar" value="Iniciar partida">';    
+			cadena=cadena+'<input type="button" class="btn btn-primary btn-md" id="iniciar" value="Iniciar partida"> &nbsp;&nbsp;';    
 		}
+		cadena = cadena + '<input type="button" class="btn btn-primary btn-md" id="abandonar" value="Abandonar partida">';  
 		cadena=cadena+'</div>';
 	    $('#esperando').append(cadena);
 	    $('#iniciar').click(function(){
-			console.log("1")
 	    	ws.iniciarPartida();
+	    });
+		$('#abandonar').click(function(){
+	    	ws.abandonarPartida();
+			location.reload(true);
 	    });
 	  }
 
