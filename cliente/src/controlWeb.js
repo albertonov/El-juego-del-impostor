@@ -139,7 +139,7 @@ function ControlWeb($){
 	    if (ws.owner){
 			cadena=cadena+'<input type="button" class="btn btn-primary btn-md" id="iniciar" value="Iniciar partida"> &nbsp;&nbsp;';    
 		}
-		cadena = cadena + '<input type="button" class="btn btn-primary btn-md" id="abandonar" value="Abandonar partida">';  
+		cadena = cadena + '<input type="button" class="btn btn-danger btn-md" id="abandonar" value="Abandonar partida">';  
 		cadena=cadena+'</div>';
 	    $('#esperando').append(cadena);
 	    $('#iniciar').click(function(){
@@ -210,13 +210,13 @@ function ControlWeb($){
 
 	this.mostrarChat = function(){
 		var cadena = ''
-		cadena = cadena +  '<ul id="messages" style="padding-inline-start: 0px; height:5600px; max-height:560px; overflow-x:hidden;"></ul>'
+		cadena = cadena +  '<ul id="messages" style=" margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:560px; overflow-x:hidden;"></ul>'
 		cadena = cadena +  '<div class="row">'
 		cadena = cadena +  		'<div class="col-sm-8">'
 		cadena = cadena +  			'<input type="text" class="form-control" id="inputMesage" placeholder="Escribe un mensaje">'
 		cadena = cadena +  		'</div>'
 		cadena = cadena +  		'<div class="col-sm-4">'
-		cadena = cadena +  			'<button id="btnEnviar" >Send</button>'
+		cadena = cadena +  			'<button type="button" class="btn btn-secondary" id="btnEnviar" >Enviar</button>'
 		cadena = cadena +  		'</div>'
 		cadena = cadena +  '</div>'
 		
@@ -234,7 +234,7 @@ function ControlWeb($){
 		$("#messages").empty()
 		cadena = ''
 		for(var i=0;i<listaMSG.length;i++){
-			cadena=cadena+'<li class="list-group-item">'+listaMSG[i]+'</li>';
+			cadena=cadena+'<li class="list-group-item"  style=" margin: 0 0 3px 0;">'+listaMSG[i]+'</li>';
 		}
 		$("#messages").append(cadena);
 	}

@@ -4,7 +4,8 @@
   "description": "trabajo procesos",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jasmine-node servidor"
+    "test": "./node_modules/.bin/jasmine-node servidor",
+    "start": "node index.js 4 noTest"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "jasmine-node": "^3.0.0",
+    "mongodb": "^3.6.9",
     "socket.io": "^2.3.0"
   }
 }

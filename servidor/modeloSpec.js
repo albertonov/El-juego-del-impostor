@@ -2,19 +2,16 @@ var modelo=require("./modelo.js");
 
 describe("El juego del impostor", function() {
   var juego;
-  //var usr;
   var nick;
 
   beforeEach(function() {
-  	juego=new modelo.Juego(4);
-  	//usr=new modelo.Usuario("Pepe");
+  	juego=new modelo.Juego(4, "test");
   	nick="Pepe";
   });
 
   it("comprobar valores iniciales del juego", function() {
   	expect(Object.keys(juego.partidas).length).toEqual(0);
   	expect(nick).toEqual("Pepe");
-  	//expect(usr.juego).not.toBe(undefined);
   });
 
   it("comprobar valores de la partida",function(){

@@ -17,7 +17,6 @@ function ServidorWS(){
 		var cli=this;
 		io.on('connection',function(socket){		    
 		    socket.on('crearPartida', function(nick,numero, mapa, isPrivate){
-		        //var usr=new modelo.Usuario(nick);
 				console.log("A crear partida (servidor) LE LLEGA "+ mapa)
 				var codigo=juego.crearPartida(numero,nick, mapa, isPrivate);	
 				socket.join(codigo);	        			
@@ -27,7 +26,6 @@ function ServidorWS(){
 		    	cli.enviarGlobal(socket,"recibirListaPartidasDisponibles",lista); 
 		    });
 		    socket.on('unirAPartida',function(nick,codigo){
-		    	//nick o codigo nulo
 		    	var res=juego.unirAPartida(codigo,nick);
 				if (res != -1) {
 					socket.join(codigo);
@@ -36,7 +34,6 @@ function ServidorWS(){
 					console.log("Usuario "+res.nick+" se une a partida "+res.codigo +"en mapa "+ mapa);
 					cli.enviarRemitente(socket,"unidoAPartida",{"codigo":res.codigo, "nick":res.nick,"numJugador":res.numJugador, "mapa": mapa});
 					var lista=juego.obtenerListaJugadores(codigo);
-					//cli.enviarATodosMenosRemitente(socket,codigo,"nuevoJugador",res.nick);
 					cli.enviarATodos(io, codigo, "nuevoJugador",lista);
 				}
 				
@@ -59,8 +56,6 @@ function ServidorWS(){
 						juego.eliminarPartida(codigo);
 					}
 					else{
-						//if partida existe then enviartodos else nada
-
 						var lista=juego.obtenerListaJugadores(codigo);
 						cli.enviarATodosMenosRemitente(socket,codigo, "jugadorAbandona",lista);
 					}
@@ -86,10 +81,6 @@ function ServidorWS(){
 		    });
 
 		    socket.on('estoyDentro',function(nick,codigo){
-		    	//var usr=juego.obtenerJugador(nick,codigo);
-		  //   	var numero=juego.partidas[codigo].usuarios[nick].numJugador;
-		  //   	var datos={nick:nick,numJugador:numero};
-				// cli.enviarATodosMenosRemitente(socket,codigo,"dibujarRemoto",datos)
 				var lista=juego.obtenerListaJugadores(codigo);
 				cli.enviarRemitente(socket,"dibujarRemoto",lista);
 		    });
@@ -171,7 +162,7 @@ function ServidorWS(){
 
 			socket.on("enviarMensaje",function(nick, codigo, msg){
 		    	var partida=juego.partidas[codigo];
-		    	var newMsg = nick + ": " + msg
+		    	var newMsg = "<strong>"+ nick +"</strong>" + ": " + msg
 				partida.agregarMensaje(newMsg);
 				var listaMensajes = partida.getMensajes()
 		    	cli.enviarATodos(io, codigo, "recibirMensaje",listaMensajes);

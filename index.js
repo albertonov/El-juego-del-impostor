@@ -10,7 +10,7 @@ var wss=require("./servidor/servidorWS.js");
 
 var servidorWS=new wss.ServidorWS();
 
-var min = process.argv.slice(2);
+var args=process.argv.slice(2);
 
 app.set('port', process.env.PORT || 5000);
 
@@ -18,7 +18,7 @@ app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var juego=new modelo.Juego(min);
+var juego=new modelo.Juego(args[0], args[1]);
 
 app.get('/', function (request, response) {
     var contenido = fs.readFileSync(__dirname + "/cliente/index.html");   
@@ -53,6 +53,13 @@ app.get("/unirAPartida/:nick/:codigo",function(request,response){
 app.get("/listaPartidas",function(request,response){
 	var lista=juego.listaPartidas();
 	response.send(lista);
+});
+
+app.get("/partidasFinalizadas/:admin",function(request,response){
+	var admin=request.params.admin;
+	juego.partidasFinalizadas(admin,function(lista){
+		response.send(lista);
+	});
 });
 
 server.listen(app.get('port'), function () {
