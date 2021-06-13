@@ -5,15 +5,15 @@ function Juego(min, test){
 	this.min=min;
 	this.partidas={};
 	this.test = test;
-	this.crearPartida=function(num,owner, mapa, isPrivate){
+	this.crearPartida=function(num,owner, mapa, isPrivate, isOscure){
 		let codigo;
-		console.log(this.numeroValido(num) + " " + num + " " + min + "|" + test)
+		console.log(this.numeroValido(num) + " " + num + " " + min + "|" + isOscure)
 		if (!this.partidas[codigo] && this.numeroValido(num)){
 			codigo=this.obtenerCodigo();
-			this.partidas[codigo]=new Partida(num,owner,codigo,mapa, isPrivate,this);
+			this.partidas[codigo]=new Partida(num,owner,codigo,mapa, isPrivate,isOscure, this);
 			if(test == "noTest"){
 				var fase = this.partidas[codigo].fase.nombre;
-				this.cad.insertarPartida({"nick": owner, "numeroJugadores": num, "codigo": codigo, "mapa":mapa,  "fase":fase}, function(res){})	
+				this.cad.insertarPartida({"nick": owner, "numeroJugadores": num, "codigo": codigo, "mapa":mapa, "nieblaDeGuerra":isOscure,  "fase":fase}, function(res){})	
 			}
 			return codigo;
 		}
@@ -184,7 +184,7 @@ function Juego(min, test){
 	}
 }
 
-function Partida(num,owner,codigo,mapa, isPrivate, juego){
+function Partida(num,owner,codigo,mapa, isPrivate, isOscure, juego){
 	this.maximo=num;
 	this.nickOwner=owner;
 	this.codigo=codigo;
@@ -195,6 +195,7 @@ function Partida(num,owner,codigo,mapa, isPrivate, juego){
 	this.encargos=["mobiliario","basuras","calles"];
 	this.mapa = mapa;
 	this.isPrivate = isPrivate;
+	this.niebla = isOscure;
 	this.mensajes = [];
 
 	this.agregarMensaje = function(msg){

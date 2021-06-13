@@ -107,7 +107,7 @@ function lanzarJuego(){
     worldLayer.setCollisionByProperty({ collides: true });
     capaTareas.setCollisionByProperty({ collides: true });
 
-    if (fogOfWar){
+    if (ws.niebla){
       const width = 1200
       const height = 1200
       var rt = crear.make.renderTexture({
@@ -397,7 +397,7 @@ function lanzarJuego(){
     
 
 
-    if (fogOfWar){
+    if (ws.niebla){
       vision = crear.make.image({
         x: player.x,
         y: player.y,
@@ -582,7 +582,7 @@ function lanzarJuego(){
       }
       nickJugador.x = player.x - 15;
       nickJugador.y = player.y - 25;
-      if (fogOfWar){
+      if (ws.niebla){
         if (vision)
         {
           vision.x = player.x

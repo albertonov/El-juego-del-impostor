@@ -9,12 +9,13 @@ function ControlWeb($){
 		cadena= cadena + '<br><br><div id="mostrarCP">';
 
 		cadena=cadena+	'<div class="row">';
-		cadena=cadena+		'<div class="form-group col-sm-2">';
+		cadena=cadena+		'<div class="form-group col-sm-2"> <br><br><br><br>';
 		cadena=cadena+			'<label for="num">Número de jugadores:</label>';
 		cadena=cadena+			'<input type="number" min="'+min+'" max="10" value="'+min+'" class="form-control" id="num">';
 		cadena=cadena+		'</div>';
-		cadena=cadena+		'<div class="form-group col-sm-2">';
-		cadena=cadena+			'<input type="checkbox" id="isPrivate"> <label for="isPrivate">Partida Privada</label>';
+		cadena=cadena+		'<div class="form-group col-sm-2"> <br><br><br><br>';
+		cadena=cadena+			'<input type="checkbox" id="isPrivate"> <label for="isPrivate">Partida Privada &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;</label>';
+		cadena=cadena+			'<input type="checkbox" id="isOscure"> <label for="isOscure">Niebla de guerra</label>';
 		cadena=cadena+		'</div>';
 
 		cadena=cadena+		'<div class="container">';
@@ -60,9 +61,11 @@ function ControlWeb($){
 			var num=$("#num").val();
 			var mapa=$("#selectorMapa").val();
 			var isPrivate= $('#isPrivate').is(":checked")
+			var oscure= $('#isOscure').is(":checked")
+			console.log("NDG en CW" + oscure)
 			if (nick){
 				$("#menuPrincipal").remove();
-				ws.crearPartida(nick,num, mapa, isPrivate);
+				ws.crearPartida(nick,num, mapa, isPrivate, oscure);
 				$('#nick').prop( "disabled", true );
 			}
 			else{

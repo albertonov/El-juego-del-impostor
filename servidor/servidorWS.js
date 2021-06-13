@@ -16,12 +16,13 @@ function ServidorWS(){
 	this.lanzarSocketSrv=function(io,juego){
 		var cli=this;
 		io.on('connection',function(socket){		    
-		    socket.on('crearPartida', function(nick,numero, mapa, isPrivate){
+		    socket.on('crearPartida', function(nick,numero, mapa, isPrivate, isOscure){
+				console.log("NDG en SCW" + isOscure)
 				console.log("A crear partida (servidor) LE LLEGA "+ mapa)
-				var codigo=juego.crearPartida(numero,nick, mapa, isPrivate);	
+				var codigo=juego.crearPartida(numero,nick, mapa, isPrivate, isOscure);	
 				socket.join(codigo);	        			
 				console.log('usuario: '+nick+" crea partida codigo: "+codigo);	
-		       	cli.enviarRemitente(socket,"partidaCreada",{"codigo":codigo,"owner":nick, "mapa": mapa});		        		        
+		       	cli.enviarRemitente(socket,"partidaCreada",{"codigo":codigo,"owner":nick, "mapa": mapa, "niebla": isOscure});		        		        
 		    	var lista=juego.listaPartidasDisponibles();
 		    	cli.enviarGlobal(socket,"recibirListaPartidasDisponibles",lista); 
 		    });
@@ -31,8 +32,9 @@ function ServidorWS(){
 					socket.join(codigo);
 					var owner=juego.partidas[codigo].nickOwner;
 					var mapa = juego.partidas[codigo].getMapa();
-					console.log("Usuario "+res.nick+" se une a partida "+res.codigo +"en mapa "+ mapa);
-					cli.enviarRemitente(socket,"unidoAPartida",{"codigo":res.codigo, "nick":res.nick,"numJugador":res.numJugador, "mapa": mapa});
+					var niebla = juego.partidas[codigo].niebla;
+					console.log("Usuario "+res.nick+" se une a partida "+res.codigo +"en mapa "+ mapa + "con niebla en: " + niebla);
+					cli.enviarRemitente(socket,"unidoAPartida",{"codigo":res.codigo, "nick":res.nick,"numJugador":res.numJugador, "mapa": mapa, "niebla":niebla });
 					var lista=juego.obtenerListaJugadores(codigo);
 					cli.enviarATodos(io, codigo, "nuevoJugador",lista);
 				}

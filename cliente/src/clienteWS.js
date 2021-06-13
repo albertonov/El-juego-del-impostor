@@ -13,9 +13,10 @@ function ClienteWS(){
 		this.socket=io.connect();
 		this.lanzarSocketSrv();
 	}
-	this.crearPartida=function(nick,numero, mapa, isPrivate){
+	this.crearPartida=function(nick,numero, mapa, isPrivate, isOscure){
+		console.log("NDG en CWS" + isOscure)
 		this.nick=nick;
-		this.socket.emit("crearPartida",nick,numero, mapa, isPrivate);//{"nick":nick,"numero":numero}
+		this.socket.emit("crearPartida",nick,numero, mapa, isPrivate, isOscure);
 	}
 	this.unirAPartida=function(nick,codigo){
 		//this.nick=nick;
@@ -86,6 +87,7 @@ function ClienteWS(){
 				cli.estado="vivo";
 				cw.mostrarEsperandoRival(data.codigo);
 				cli.mapa = data.mapa;
+				cli.niebla = data.niebla;
 				console.log("A PARTIDA CREADA LE LLEGA "+ data.mapa)
 			}
 		});
@@ -95,6 +97,7 @@ function ClienteWS(){
 			cli.numJugador=data.numJugador;
 			cli.estado="vivo";
 			cli.mapa = data.mapa;
+			cli.niebla = data.niebla;
 			console.log(data);
 
 			cw.mostrarEsperandoRival(data.codigo);
