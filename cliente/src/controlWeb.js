@@ -211,8 +211,9 @@ function ControlWeb($){
 	}
 
 
-	this.mostrarChat = function(){
+	this.mostrarChatyTareas = function(){
 		var cadena = ''
+		cadena = cadena +  '<ul id="tareas" style=" margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:560px; overflow-x:hidden;"></ul>'
 		cadena = cadena +  '<ul id="messages" style=" margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:560px; overflow-x:hidden;"></ul>'
 		cadena = cadena +  '<div class="row">'
 		cadena = cadena +  		'<div class="col-sm-8">'

@@ -175,13 +175,13 @@ function ServidorWS(){
 				if (mapa == "map1"){
 					var preguntasMapa1 = {
 						"calles":
-							['tarea1', 'Te encuentras en la herreria. Aun eres un aprendiz, pero has visto muchas peliculas y seguro que sabes forjar un anillo que te haga invisible. <br>Pero por el momento, aun tienes que aprender que <strong>para hacer bronce, el cobre se mezcla con...</strong>' , 'Estaño' ],
+							['Herreria', 'Te encuentras en la herreria. Aun eres un aprendiz, pero has visto muchas peliculas y seguro que sabes forjar un anillo que te haga invisible. <br>Pero por el momento, aun tienes que aprender que <strong>para hacer bronce, el cobre se mezcla con...</strong>' , 'Estaño' ],
 						
 						"mobiliario":
-							['tarea2', 'Te encuentras en el mercado. Un beduino llega de tierras lejanas, pero parece que no se entera de como se gestionan los pesos y precios de esta aldea. <br>- No se lo que es una arroba. <br>Tu, como experto comerciante que eres, sabes que <strong> una arroba equivale a X libras</strong>' , '25' ],
+							['Mercado', 'Te encuentras en el mercado. Un beduino llega de tierras lejanas, pero parece que no se entera de como se gestionan los pesos y precios de esta aldea. <br>- No se lo que es una arroba. <br>Tu, como experto comerciante que eres, sabes que <strong> una arroba equivale a X libras</strong>' , '25' ],
 						
 						"basuras":
-							['tarea3', 'Quizas no sea el encargo más interesante del mundo, pero al menos te licenciastes en geografia. Y por supuesto, sabes que el rio más largo del mundo es el rio...' , 'Amazonas' ],
+							['Aguador', 'Quizas no sea el encargo más interesante del mundo, pero al menos te licenciastes en geografia. Y por supuesto, sabes que el rio más largo del mundo es el rio...' , 'Amazonas' ],
 
 					}
 					cli.enviarRemitente(socket,"returnTareaInfo", preguntasMapa1[tarea]);		
@@ -193,7 +193,7 @@ function ServidorWS(){
 							['Calles', 'El Bernabeu esta ubicado en el...' , 'Paseo de la Castellana' ],
 						
 						"mobiliario":
-							['Mobiario', 'Es venta y no se vende, es Ana, pero no es gente. Soy una...' , 'Ventana' ],
+							['Mobiliario', 'Es venta y no se vende, es Ana, pero no es gente. Soy una...' , 'Ventana' ],
 						
 						"basuras":
 							['Basuras', 'El plastico va al contenedor...' , 'Amarillo' ],

@@ -122,13 +122,13 @@ function Juego(min, test){
 		if (mapa == "map1"){
 			var preguntasMapa1 = {
 				"calles":
-					['pregunta1', 'Te encuentras en la herreria. Aun eres un aprendiz, pero has visto muchas peliculas y seguro que sabes forjar un anillo que te haga invisible. <br>Pero por el momento, aun tienes que aprender que <strong>para hacer bronce, el cobre se mezcla con...</strong>' , 'Estaño' ],
+					['Herreria', 'Te encuentras en la herreria. Aun eres un aprendiz, pero has visto muchas peliculas y seguro que sabes forjar un anillo que te haga invisible. <br>Pero por el momento, aun tienes que aprender que <strong>para hacer bronce, el cobre se mezcla con...</strong>' , 'Estaño' ],
 				
 				"mobiliario":
-					['pregunta2', 'Te encuentras en el mercado. Un beduino llega de tierras lejanas, pero parece que no se entera de como se gestionan los pesos y precios de esta aldea. <br>- No se lo que es una arroba. <br>Tu, como experto comerciante que eres, sabes que <strong> una arroba equivale a X libras</strong>' , '25' ],
+					['Mercado', 'Te encuentras en el mercado. Un beduino llega de tierras lejanas, pero parece que no se entera de como se gestionan los pesos y precios de esta aldea. <br>- No se lo que es una arroba. <br>Tu, como experto comerciante que eres, sabes que <strong> una arroba equivale a X libras</strong>' , '25' ],
 				
 				"basuras":
-					['pregunta3', 'Quizas no sea el encargo más interesante del mundo, pero al menos te licenciastes en geografia. Y por supuesto, sabes que el rio más largo del mundo es el rio...' , 'Amazonas' ],
+					['Aguador', 'Quizas no sea el encargo más interesante del mundo, pero al menos te licenciastes en geografia. Y por supuesto, sabes que el rio más largo del mundo es el rio...' , 'Amazonas' ],
 
 			}
 
@@ -138,13 +138,13 @@ function Juego(min, test){
 		else if (mapa == "map2"){
 			var preguntasMapa2 = {
 				"calles":
-					['pregunta1', 'El Bernabeu esta ubicado en el...' , 'Paseo de la Castellana' ],
+					['Calles', 'El Bernabeu esta ubicado en el...' , 'Paseo de la Castellana' ],
 				
 				"mobiliario":
-					['pregunta2', 'Es venta y no se vende, es Ana, pero no es gente. Soy una...' , 'Ventana' ],
+					['Mobiliario', 'Es venta y no se vende, es Ana, pero no es gente. Soy una...' , 'Ventana' ],
 				
 				"basuras":
-					['pregunta3', 'El plastico va al contenedor...' , 'Amarillo' ],
+					['Basuras', 'El plastico va al contenedor...' , 'Amarillo' ],
 
 			}
 			return preguntasMapa2[tarea];		
@@ -152,13 +152,13 @@ function Juego(min, test){
 		else if (mapa == "map3"){
 			var preguntasMapa3 = {
 				"calles":
-					['pregunta1', 'NAVEGACION' , 'Paseo de la Castellana' ],
+					['Navegacion', 'NAVEGACION' , '1' ],
 				
 				"mobiliario":
-					['pregunta2', 'ESCANER' , 'Ventana' ],
+					['Escaner', 'ESCANER' , '2' ],
 				
 				"basuras":
-					['pregunta3', 'ELECTRICIDAD' , 'Amarillo' ],
+					['Electricidad', 'ELECTRICIDAD' , '3' ],
 
 			}
 			return preguntasMapa3[tarea];			

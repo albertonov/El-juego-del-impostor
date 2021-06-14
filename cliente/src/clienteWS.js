@@ -118,7 +118,8 @@ function ClienteWS(){
 			console.log("Partida en fase: "+fase);
 			if (fase=="jugando"){
 				cli.obtenerEncargo();
-				cw.mostrarChat();
+				console.log(cli.infoTarea)
+				cw.mostrarChatyTareas();
 				cw.limpiar();
 				lanzarJuego();
 			}
@@ -166,7 +167,6 @@ function ClienteWS(){
 			cli.impostor=data.impostor;
 			cli.encargo=data.encargo;
 			cli.infoTarea = data.infoTarea;
-			console.log("aaaaaaaaaaaaaaaaaaaaa"+data.infoTarea + cli.infoTarea + cli.impostor)
 			if (data.impostor){
 				//$('#avisarImpostor').modal("show");
 				cw.mostrarModalSimple('eres el impostor');

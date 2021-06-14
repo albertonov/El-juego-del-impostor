@@ -50,7 +50,7 @@ function lanzarJuego(){
   var vision = null;
   var nickJugador;
   var nicksJugadores = {};
-  var fogOfWar = false;
+  var cartelTareas;
 
   function preload() {
 
@@ -108,8 +108,8 @@ function lanzarJuego(){
     capaTareas.setCollisionByProperty({ collides: true });
 
     if (ws.niebla){
-      const width = 1200
-      const height = 1200
+      const width = 2000
+      const height = 2000
       var rt = crear.make.renderTexture({
         width,
         height
