@@ -16,6 +16,11 @@ function ControlWeb($){
 		cadena=cadena+		'<div class="form-group col-sm-2"> <br><br><br><br>';
 		cadena=cadena+			'<input type="checkbox" id="isPrivate"> <label for="isPrivate">Partida Privada &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;</label>';
 		cadena=cadena+			'<input type="checkbox" id="isOscure"> <label for="isOscure">Niebla de guerra</label>';
+		cadena=cadena+					'<select id="selectorMapa" class="form-select" aria-label="Default select example">';
+		cadena=cadena+						'<option value="map1">Medieval Rampage</option>';
+		cadena=cadena+						'<option value="map2">Tuxmon City Frenzy</option>';
+		cadena=cadena+						'<option value="map3">Space´s perils</option>';
+		cadena=cadena+					'</select>';
 		cadena=cadena+		'</div>';
 
 		cadena=cadena+		'<div class="container">';
@@ -28,25 +33,21 @@ function ControlWeb($){
 		cadena=cadena+				'</div>';
 		cadena=cadena+				'<div class="form-group col-sm-2">';
 		cadena=cadena+					'<img src="cliente\\assets\\images\\medievil.png" class="img-thumbnail">';
+		cadena=cadena+					'<p class="text-center"><strong>Medieval Rampage</strong></p>';
 		cadena=cadena+				'</div>';
 		cadena=cadena+				'<div class="form-group col-sm-2">';
 		cadena=cadena+					'<img src="cliente\\assets\\images\\tuxemon-town.png" class="img-thumbnail">';
+		cadena=cadena+					'<p class="text-center"><strong>Tuxmon City Frenzy</strong></p>';
 		cadena=cadena+				'</div>';
 		cadena=cadena+				'<div class="form-group col-sm-2">';
-		cadena=cadena+					'<img src="cliente\\assets\\images\\medievil.png" class="img-thumbnail">';
+		cadena=cadena+					'<img src="cliente\\assets\\images\\naveespacial.png" class="img-thumbnail">';
+		cadena=cadena+					'<p class="text-center"><strong>Space´s Perils</strong></p>';
 		cadena=cadena+				'</div>';
 		cadena=cadena+				'<div class=" col-sm-1">';
 		cadena=cadena+					'<label>&nbsp;</label>';
 		cadena=cadena+				'</div>';
 		cadena=cadena+				'<div class=" col-sm-5">';
 		cadena=cadena+					'<label>&nbsp;</label>';
-		cadena=cadena+				'</div>';
-		cadena=cadena+				'<div class=" col-sm-6">';
-		cadena=cadena+					'<select id="selectorMapa" class="form-select" aria-label="Default select example">';
-		cadena=cadena+						'<option value="map1">One</option>';
-		cadena=cadena+						'<option value="map2">2</option>';
-		cadena=cadena+						'<option value="map3">3</option>';
-		cadena=cadena+					'</select>';
 		cadena=cadena+				'</div>';
 		cadena=cadena+			'</div>';
 		cadena=cadena+		'</div>';
@@ -213,9 +214,9 @@ function ControlWeb($){
 
 	this.mostrarChatyTareas = function(){
 		var cadena = ''
-		cadena = cadena +  '<ul id="tareas" style=" margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:560px; overflow-x:hidden;"></ul>'
-		cadena = cadena +  '<ul id="messages" style=" margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:560px; overflow-x:hidden;"></ul>'
-		cadena = cadena +  '<div class="row">'
+		cadena = cadena +  '<ul id="tareas" style=" background-color: #fffff; margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:100px; overflow-x:hidden;"></ul>'
+		cadena = cadena +  '<ul id="messages" style=" background-color:#f8f8f8; margin: 12px 12px 12px 12px; padding-inline-start: 0px; height:5600px; max-height:460px; overflow-x:hidden;"></ul>'
+		cadena = cadena +  '<div class="row" style="margin: 12px 12px 12px 12px;">'
 		cadena = cadena +  		'<div class="col-sm-8">'
 		cadena = cadena +  			'<input type="text" class="form-control" id="inputMesage" placeholder="Escribe un mensaje">'
 		cadena = cadena +  		'</div>'
@@ -242,7 +243,22 @@ function ControlWeb($){
 		}
 		$("#messages").append(cadena);
 	}
+	this.anadirTareas = function (listaTareas, isImpostor){
+		console.log("anadirtareas" + listaTareas)
+		$("#tareas").empty()
+		cadena = ''
+		if (isImpostor){
+			cadena = cadena + 'Eres el <p style="color:red; display:inline">impostor</p><br><br>Acaba con los ciudadanos!'
+		}
+		else{
+			for(var i=0;i<listaTareas.length;i++){
+				cadena = cadena + 'Eres un <p style=" display:inline; color:blue"">ciudadano</p>. <br><br>Cumple con las siguientes tareas para ganar el juego:'
+				cadena=cadena+ "<strong> " + listaTareas[i] + "</strong>";
+			}
+		}
 
+		$("#tareas").append(cadena);
+	}
 
 	this.mostrarModalTarea=function(infoTarea){
 		this.limpiarModal();

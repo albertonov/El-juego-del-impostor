@@ -110,7 +110,12 @@ function ServidorWS(){
 		    	}
 				var fase=partida.fase.nombre;
 				if (fase=="final"){
-			    	cli.enviarATodos(io, codigo, "final","FIN DEL JUEGO");
+					if (partida.gananImpostores()){
+						cli.enviarATodos(io, codigo, "final","Ganan impostores");
+					}
+					else{
+						cli.enviarATodos(io, codigo, "final","Ganan ciudadanos");
+					}
 			    }
 		    });
 
@@ -127,7 +132,12 @@ function ServidorWS(){
 		    	}
 				var fase=partida.fase.nombre;
 				if (fase=="final"){
-			    	cli.enviarATodos(io, codigo, "final","FIN DEL JUEGO");
+					if (partida.gananImpostores()){
+						cli.enviarATodos(io, codigo, "final","Ganan impostores");
+					}
+					else{
+						cli.enviarATodos(io, codigo, "final","Ganan ciudadanos");
+					}
 			    }
 		    });
 
@@ -157,8 +167,13 @@ function ServidorWS(){
 		    	var global=partida.obtenerPercentGlobal();
 				cli.enviarRemitente(socket,"tareaRealizada",{"percent":percent,"goblal":global});			    	
 		    	var fase=partida.fase.nombre;
-		    	if (fase=="final"){
-			    	cli.enviarATodos(io, codigo, "final","ganan ciudadanos");
+				if (fase=="final"){
+					if (partida.gananImpostores()){
+						cli.enviarATodos(io, codigo, "final","Ganan impostores");
+					}
+					else{
+						cli.enviarATodos(io, codigo, "final","Ganan ciudadanos");
+					}
 			    }
 		    });
 

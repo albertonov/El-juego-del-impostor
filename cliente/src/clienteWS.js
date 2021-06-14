@@ -118,15 +118,12 @@ function ClienteWS(){
 			console.log("Partida en fase: "+fase);
 			if (fase=="jugando"){
 				cli.obtenerEncargo();
-				console.log(cli.infoTarea)
 				cw.mostrarChatyTareas();
 				cw.limpiar();
 				lanzarJuego();
 			}
 		});
 		this.socket.on('recibirListaPartidasDisponibles',function(lista){
-			console.log(lista);
-			//cw.mostrarUnirAPartida(lista);
 			if (!cli.codigo){
 				cw.mostrarListaPartidas(lista);
 			}
@@ -152,10 +149,7 @@ function ClienteWS(){
 			}
 		});
 		this.socket.on("finalVotacion",function(data){
-			console.log(data);
-			//cw.cerrarModal()
 			$('#modalGeneral').modal('toggle');
-			//mostrar otro modal
 			cw.mostrarModalSimple(data.elegido);
 		});
 		this.socket.on("haVotado",function(data){
@@ -168,14 +162,14 @@ function ClienteWS(){
 			cli.encargo=data.encargo;
 			cli.infoTarea = data.infoTarea;
 			if (data.impostor){
-				//$('#avisarImpostor').modal("show");
 				cw.mostrarModalSimple('eres el impostor');
-
-				//crearColision();
 			}
+			
+			cw.anadirTareas([data.infoTarea[0]], data.impostor);
+
+			
 		});
 		this.socket.on("final",function(data){
-			console.log(data);
 			finPartida(data);
 		});
 		this.socket.on("muereInocente",function(inocente){
