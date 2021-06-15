@@ -3,7 +3,7 @@ var ObjectID=require("mongodb").ObjectID;
 
 function Cad (){
 	this.partidas=undefined;
-
+    this.connected;
     //// Partidas
     this.insertarPartida=function(partida,callback){
         insertar(this.partidas,partida,callback);
@@ -84,19 +84,23 @@ function Cad (){
 		mongo.connect("mongodb+srv://alberto:albertopass@cluster0.enecr.mongodb.net/impostorjuego?retryWrites=true&w=majority",{useUnifiedTopology: true },function(err, database){
             if (err){
                 console.log("No pudo conectar a la base de datos");
+                this.connected = false;
+                callback("ERROR");
+
             }
             else{                
 	 			console.log("conectado a Mongo: coleccion partidas");                             
                 database.db("impostorapp").collection("partidas",function(err,col){
                     if (err){
                         console.log("No se puede obtener la coleccion")
+                        callback("ERROR");
                     }
                     else{       
                         console.log("tenemos la colección partidas");                                 
-                        cad.partidas=col;                                                  
+                        cad.partidas=col;  
+                        callback(database);                                                
                     }
                 });
-              callback(database);
             }
 		});
 	}

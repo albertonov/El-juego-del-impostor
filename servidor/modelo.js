@@ -1,5 +1,5 @@
 var cad = require('./cad.js');
-
+var conectado_db = false;
 function Juego(min, test){
 	this.cad = new cad.Cad();
 	this.min=min;
@@ -13,7 +13,12 @@ function Juego(min, test){
 			this.partidas[codigo]=new Partida(num,owner,codigo,mapa, isPrivate,isOscure, this);
 			if(test == "noTest"){
 				var fase = this.partidas[codigo].fase.nombre;
-				this.cad.insertarPartida({"nick": owner, "numeroJugadores": num, "codigo": codigo, "mapa":mapa, "nieblaDeGuerra":isOscure,  "fase":fase}, function(res){})	
+				if (conectado_db){
+					this.cad.insertarPartida({"nick": owner, "numeroJugadores": num, "codigo": codigo, "mapa":mapa, "nieblaDeGuerra":isOscure,  "fase":fase}, function(res){})	
+				}
+				else{
+					console.log("No se pudo guardar el registro en la DB")
+				}
 			}
 			return codigo;
 		}
@@ -164,22 +169,33 @@ function Juego(min, test){
 			return preguntasMapa3[tarea];			
 		}
 	}
+
 	if (test == "noTest"){
 		this.cad.connect(function(db){
-			console.log("Conectado a Atlas")
+			if(db != "ERROR"){
+				console.log("Conectado a Atlas")
+				conectado_db = true;
+			}
+			else{
+				console.log("ERROR CONECTANDOSE A LA DB")
+				conectado_db = false;
+			}
 		});
 	}
 
 
 	this.partidasFinalizadas=function(admin,callback){
 		if(admin=="pass1234" && this.test=="noTest"){
-			this.cad.obtenerPartidaCriterio({fase:"final"},function(lista){
-				if(lista){
-					callback(lista);
-				}else{
-					callback({})
-				}
-			});
+			if (conectado_db){
+				this.cad.obtenerPartidaCriterio({fase:"final"},function(lista){
+					if(lista){
+						callback(lista);
+					}else{
+						callback({})
+					}
+				});
+			}
+
 		}
 	}
 }
@@ -479,7 +495,12 @@ function Partida(num,owner,codigo,mapa, isPrivate, isOscure, juego){
 		this.fase=new Final();
 		if(this.juego.test == "noTest"){
 			var fase = this.fase.nombre;
-			this.juego.cad.insertarPartida({"nick": this.nickOwner, "numeroJugadores": this.num, "codigo": this.codigo, "mapa":this.mapa,  "fase":fase, "mensajes":this.mensajes }, function(res){})	
+			if (conectado_db){
+				this.juego.cad.insertarPartida({"nick": this.nickOwner, "numeroJugadores": this.num, "codigo": this.codigo, "mapa":this.mapa,  "fase":fase, "mensajes":this.mensajes }, function(res){})	
+			}
+			else{
+				console.log("No se pudo guardar el registro en la DB")
+			}
 		}
 	}
 
