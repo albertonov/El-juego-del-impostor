@@ -36,6 +36,8 @@ describe("El juego del impostor", function() {
 	  	expect(Object.keys(partida.usuarios).length).toEqual(1);
 	  });
 
+
+
 	it("no se puede crear partida si el num no está entre 4 y 10",function(){
 		var codigo=juego.crearPartida(3,nick);
 		expect(codigo).toEqual("fallo");
@@ -364,6 +366,7 @@ describe("El juego del impostor", function() {
 				juego.unirAPartida(codigo,"jugador4");
 				juego.iniciarPartida(nick,codigo);
 				partida=juego.partidas[codigo];
+
 			});
 
 			it("comprobar que todos tienen sus tareas y no estan completadas, excepto el impostor",function(){
@@ -389,11 +392,14 @@ describe("El juego del impostor", function() {
 				expect(partida.fase.nombre).toEqual("final");
 			});
 
-			it("jugador intenta realizar una tarea en una votacion",function(){
+			it("jugador3 intenta realizar una tarea en una votacion",function(){
+				partida.usuarios["jugador3"].estadoTarea = false;
 				expect(partida.fase.nombre).toEqual("jugando");
 				juego.lanzarVotacion("jugador3",codigo);	
 				expect(partida.fase.nombre).toEqual("votacion");
-				partida.realizarTarea("jugador3")
+				partida.realizarTarea("jugador3");
+				console.log(partida.usuarios["jugador3"].estadoTarea);
+				expect(partida.fase.nombre).toEqual("votacion");
 				expect(partida.usuarios["jugador3"].estadoTarea).not.toEqual("completada");
 			});
 

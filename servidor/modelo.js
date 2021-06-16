@@ -7,7 +7,7 @@ function Juego(min, test){
 	this.test = test;
 	this.crearPartida=function(num,owner, mapa, isPrivate, isOscure){
 		let codigo;
-		console.log(this.numeroValido(num) + " " + num + " " + min + "|" + isOscure)
+		//console.log(this.numeroValido(num) + " " + num + " " + min + "|" + isOscure)
 		if (!this.partidas[codigo] && this.numeroValido(num)){
 			codigo=this.obtenerCodigo();
 			this.partidas[codigo]=new Partida(num,owner,codigo,mapa, isPrivate,isOscure, this);
